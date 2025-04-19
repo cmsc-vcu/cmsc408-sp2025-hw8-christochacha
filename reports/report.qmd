@@ -183,7 +183,7 @@ List the country full names and regions for all countries in north america.
 ## (skills: select, where, order by)
 
 run_sql_and_return_html(cnx,"""
-SELECT `Long Name`FROM wdi_country WHERE Region = "North America";
+SELECT `Long Name`, Region FROM wdi_country WHERE Region = "North America";
 """)
 
 ```
@@ -239,7 +239,7 @@ SELECT COUNT(*), `Income Group` FROM wdi_country GROUP BY `Income Group` ORDER B
 ## in the first column.
 
 run_sql_and_return_html(cnx,"""
-select "doh!" as "Homer says ..." from dual
+SELECT `Short Name` FROM wdi_country WHERE Region IS NOT NULL AND `Income Group` IS NULL;
 """)
 
 ```
@@ -253,6 +253,10 @@ select "doh!" as "Homer says ..." from dual
 ## NOTE - if you get this wrong, all subsequent tables will be wrong!
 
 execute_ddl(cnx,"""
+UPDATE wdi_country
+SET `Income Group` = 'High income'
+WHERE `Short Name` = 'Venezuela';
+commit;
 """)
 
 
@@ -261,7 +265,7 @@ execute_ddl(cnx,"""
 ## Now, display the country again to verify the change stuck!
 
 run_sql_and_return_html(cnx,"""
-select "doh!" as "Homer says ..." from dual
+SELECT `Short Name`, `Income Group` FROM wdi_country WHERE `Short Name`= "Venezuela";
 """)
 
 ```
@@ -275,7 +279,7 @@ select "doh!" as "Homer says ..." from dual
 ## (skills: select, aggregate, group by, order by)
 
 run_sql_and_return_html(cnx,"""
-select "doh!" as "Homer says ..." from dual
+SELECT Region, `Income Group`, COUNT(*) AS "no.of.countries" FROM wdi_country WHERE Region IS NOT NULL AND `Income Group` IS NOT NULL GROUP BY Region, `Income Group` ORDER BY Region DESC;
 """)
 
 ```
@@ -296,7 +300,7 @@ select "doh!" as "Homer says ..." from dual
 ## (skills: select, aggregate, group by, nested query)
 
 run_sql_and_return_html(cnx,"""
-select "doh!" as "Homer says ..." from dual
+SELECT Region, COUNT(CASE WHEN `Income Group` = 'High income' THEN 1 END) AS "High income", COUNT(CASE WHEN `Income Group` = 'Upper middle income' THEN 1 END) AS "Upper middle income", COUNT(CASE WHEN `Income Group` = 'Lower middle income' THEN 1 END) AS "Lower middle income", COUNT(CASE WHEN `Income Group` = 'Low income' THEN 1 END) AS "Low income", COUNT(*) AS "Total Countries" FROM wdi_country WHERE Region IS NOT NULL GROUP BY Region ORDER BY Region;
 """)
 
 ```
