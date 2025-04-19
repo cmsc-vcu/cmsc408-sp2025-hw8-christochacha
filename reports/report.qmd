@@ -362,7 +362,7 @@ SELECT `Country Code`, `Short Name`, Region, `Income Group` FROM wdi_country WHE
 ## (skills: select, where, subqueries, joins)
 
 run_sql_and_return_html(cnx,"""
-select "doh!" as "Homer says ..." from dual
+SELECT `Country Code`, `Short Name`, Region, `Income Group` FROM wdi_country WHERE Region = ( SELECT Region FROM wdi_country WHERE `Country Code` = 'MHL' ) AND `Income Group` = ( SELECT `Income Group` FROM wdi_country WHERE `Country Code` = 'MHL' ) ORDER BY `Short Name`;
 """)
 
 ```
@@ -386,7 +386,7 @@ select "doh!" as "Homer says ..." from dual
 ## (skills: select, where, subqueries, joins, aggregate functions)
 
 run_sql_and_return_html(cnx,"""
-select "doh!" as "Homer says ..." from dual
+SELECT Region, `Income Group`, COUNT(*) AS country_count, (SELECT COUNT(*) FROM wdi_country AS r WHERE r.Region = c.Region AND r.Region IS NOT NULL) AS region_total, (SELECT COUNT(*) FROM wdi_country AS i WHERE i.`Income Group` = c.`Income Group` AND i.`Income Group` IS NOT NULL) AS income_group_total, (SELECT COUNT(*) FROM wdi_country WHERE Region IS NOT NULL AND `Income Group` IS NOT NULL) AS total_countries, ROUND( COUNT(*) * 100.0 / (SELECT COUNT(*) FROM wdi_country WHERE Region IS NOT NULL AND `Income Group` IS NOT NULL), 2 ) AS percent_of_total FROM wdi_country AS c WHERE Region IS NOT NULL AND `Income Group` IS NOT NULL GROUP BY Region, `Income Group` ORDER BY percent_of_total DESC;
 """)
 
 
