@@ -306,12 +306,14 @@ SELECT
   COUNT(CASE WHEN `Income Group` = 'Upper middle income' THEN 1 END) AS "Upper middle income",
   COUNT(CASE WHEN `Income Group` = 'Lower middle income' THEN 1 END) AS "Lower middle income",
   COUNT(CASE WHEN `Income Group` = 'Low income' THEN 1 END) AS "Low income",
+  COUNT(CASE WHEN `Income Group` IS NULL THEN 1 END) AS "Other",
   COUNT(*) AS "Total Countries"
 FROM wdi_country
 WHERE Region IS NOT NULL
 GROUP BY Region
 ORDER BY Region;
 """)
+
 
 
 ```
