@@ -378,11 +378,12 @@ WITH all_combinations AS (
   WHERE r.Region IS NOT NULL AND i.`Income Group` IS NOT NULL
 ),
 existing_pairs AS (
-  SELECT DISTINCT Region, `Income Group`
+  SELECT Region, `Income Group`
   FROM wdi_country
   WHERE Region IS NOT NULL AND `Income Group` IS NOT NULL
+  GROUP BY Region, `Income Group`
 )
-SELECT ac.Region, ac.`Income Group`
+SELECT ac.Region, ac.`Income Group`, 0 AS Count
 FROM all_combinations ac
 LEFT JOIN existing_pairs ep
   ON ac.Region = ep.Region AND ac.`Income Group` = ep.`Income Group`
