@@ -312,10 +312,6 @@ WHERE Region IS NOT NULL
 GROUP BY Region
 ORDER BY Region;
 """)
-
-
-
-
 ```
 
 ## Task 16
@@ -374,9 +370,26 @@ SELECT `Country Code`, `Short Name`, Region, `Income Group` FROM wdi_country WHE
 ## in Task 14.  (FYI - I get 6 rows in my final table.)
 ## (skills: select, where, subqueries, joins)
 
-run_sql_and_return_html(cnx,"""
-SELECT `Country Code`, `Short Name`, Region, `Income Group` FROM wdi_country WHERE Region = ( SELECT Region FROM wdi_country WHERE `Country Code` = 'MHL' ) AND `Income Group` = ( SELECT `Income Group` FROM wdi_country WHERE `Country Code` = 'MHL' ) ORDER BY `Short Name`;
+run_sql_and_return_html(cnx, """
+WITH all_combinations AS (
+  SELECT DISTINCT r.Region, i.`Income Group`
+  FROM wdi_country r
+  CROSS JOIN wdi_country i
+  WHERE r.Region IS NOT NULL AND i.`Income Group` IS NOT NULL
+),
+existing_pairs AS (
+  SELECT DISTINCT Region, `Income Group`
+  FROM wdi_country
+  WHERE Region IS NOT NULL AND `Income Group` IS NOT NULL
+)
+SELECT ac.Region, ac.`Income Group`
+FROM all_combinations ac
+LEFT JOIN existing_pairs ep
+  ON ac.Region = ep.Region AND ac.`Income Group` = ep.`Income Group`
+WHERE ep.Region IS NULL
+ORDER BY ac.Region, ac.`Income Group`;
 """)
+
 
 ```
 
