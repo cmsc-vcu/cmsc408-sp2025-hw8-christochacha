@@ -1,11 +1,16 @@
-# Creating source code for HW9
+# Homework 8 - SQL Funhouse
 
-This folder contains the code used to populate the MYSQL server with data for homework assignment 8.
+## Overview 
+This repository contains the altered and completed quarto scaffold for homework 8.
 
-Everything needed is contained in *loader.qmd*. This pipeline:
+## Assignment Description
+The overall goal for this assignment is to practice using real life data and making SQL queries on it. The data we are querying is the WDI Country data where things like country names, income amount, region, etc. are stored in a CSV file. It is are job to create increasingly difficult queries to gather some kind of information from this data.
 
-1. downloads source data in ZIP format from world bank data store.
-2. unzips required CSV files.
-3. load CSVs into MYSQL using Pandas and sqlalchemy.
-4. set permissions for users to access the data.
-
+## Instructions
+1. Clone the repository
+2. Connect to the MySQL server using a .env file
+3. Create the queries needed for each task
+4. Edit the quarto scaffold and fulfill the requirements
+5. Render the quarto scaffold as an html file
+6. Push changes to the repository
+7. Submit HTML file via Gradescope and Canvas

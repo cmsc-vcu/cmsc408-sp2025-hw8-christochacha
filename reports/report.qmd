@@ -502,16 +502,15 @@ ORDER BY percent_of_total DESC;
 
 1. Reflect on the SQL skills you used throughout these exercises. Which skills do you feel most confident in, and which do you think need more practice? How has this assignment helped you build or reinforce specific SQL competencies?
 
-( response goes here)
+The skills that I feel most comfortable with are using SELECT, FROM, WHERE, GROUP BY, and ORDER BY. I definitely need more practice in JOIN and in general creating tables. However, this assignment, through lots of needed repetition has really allowed me to expand my knowledge in these areas a great deal. 
 
 2. Problem-Solving Approach: Describe your approach to tackling the more complex tasks (like Tasks 18, 23, and 24). How did you break down these problems, and what steps did you take when you encountered challenges? How would you approach a similar problem differently in the future?
 
-( response goes here)
-
+Honestly, submitting to Gradescope a large number of times gave me a better idea of the types of answers I was looking for. I was having some difficulty especially in the last 2 tasks understing what the answer should be when I create a query. Therefore, this assignment made me realize that before I even address a problem, I need to have a vague idea of what the answer to the problem should be.
 
 3. Learning Takeaways: Consider the overall learning experience from this assignment. What were the biggest takeaways about working with SQL for data analysis and transformation? How do you think these skills will apply in real-world scenarios or future coursework?
 
-( response goes here)
+The overall learning experience from this assignment was how quick and useful SQL is. I couldn't have imagined having to deal with all of this data in Excel or Google Sheets. Even though it is easier visually to see what records are where, it would take ages trying to find some of these queries. Moreover, the simplicity to automate the updating of records is very useful. I realized when updating the Venezuela record that you can update hundreds of records using SQL in the blink of an eye. This will be incredibly useful in any full stack projects I want to build out in the future.
 
 
 # README
