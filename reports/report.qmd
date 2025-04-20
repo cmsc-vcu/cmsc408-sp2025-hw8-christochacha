@@ -306,7 +306,6 @@ SELECT
   CAST(COUNT(CASE WHEN `Income Group` = 'Upper middle income' THEN 1 END) AS DECIMAL(4,1)) AS "Upper middle income",
   CAST(COUNT(CASE WHEN `Income Group` = 'Lower middle income' THEN 1 END) AS DECIMAL(4,1)) AS "Lower middle income",
   CAST(COUNT(CASE WHEN `Income Group` = 'Low income' THEN 1 END) AS DECIMAL(4,1)) AS "Low income",
-  CAST(COUNT(CASE WHEN `Income Group` IS NULL THEN 1 END) AS DECIMAL(4,1)) AS "Other",
   CAST(COUNT(*) AS DECIMAL(4,1)) AS "Total Countries"
 FROM wdi_country
 WHERE Region IS NOT NULL
