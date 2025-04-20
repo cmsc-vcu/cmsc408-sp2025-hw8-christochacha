@@ -302,17 +302,18 @@ SELECT Region, `Income Group`, COUNT(*) AS "no.of.countries" FROM wdi_country WH
 run_sql_and_return_html(cnx, """
 SELECT 
   Region,
-  COUNT(CASE WHEN `Income Group` = 'High income' THEN 1 END) AS "High income",
-  COUNT(CASE WHEN `Income Group` = 'Upper middle income' THEN 1 END) AS "Upper middle income",
-  COUNT(CASE WHEN `Income Group` = 'Lower middle income' THEN 1 END) AS "Lower middle income",
-  COUNT(CASE WHEN `Income Group` = 'Low income' THEN 1 END) AS "Low income",
-  COUNT(CASE WHEN `Income Group` IS NULL THEN 1 END) AS "Other",
-  COUNT(*) AS "Total Countries"
+  CAST(COUNT(CASE WHEN `Income Group` = 'High income' THEN 1 END) AS DECIMAL(4,1)) AS "High income",
+  CAST(COUNT(CASE WHEN `Income Group` = 'Upper middle income' THEN 1 END) AS DECIMAL(4,1)) AS "Upper middle income",
+  CAST(COUNT(CASE WHEN `Income Group` = 'Lower middle income' THEN 1 END) AS DECIMAL(4,1)) AS "Lower middle income",
+  CAST(COUNT(CASE WHEN `Income Group` = 'Low income' THEN 1 END) AS DECIMAL(4,1)) AS "Low income",
+  CAST(COUNT(CASE WHEN `Income Group` IS NULL THEN 1 END) AS DECIMAL(4,1)) AS "Other",
+  CAST(COUNT(*) AS DECIMAL(4,1)) AS "Total Countries"
 FROM wdi_country
 WHERE Region IS NOT NULL
 GROUP BY Region
 ORDER BY Region;
 """)
+
 
 
 
