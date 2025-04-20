@@ -489,10 +489,11 @@ SELECT
   ic.`Income Group`,
   ic.country_count,
   t.total,
-  ROUND(ic.country_count * 100.0 / t.total, 2) AS percent_of_total
+  ROUND(ic.country_count * 100.0 / t.total, 1) AS percent_of_total
 FROM income_counts ic, total_count t
 ORDER BY percent_of_total DESC;
 """)
+
 
 ```
 
