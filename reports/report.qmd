@@ -426,7 +426,7 @@ SELECT Region, `Income Group`, COUNT(*) AS country_count, (SELECT COUNT(*) FROM 
 ## print table similar to the table in Task 15, with Income group in the
 ## columns, Region in the rows and Percent of total in each cell of the table.
 
-run_sql_and_return_html(cnx,"""
+run_sql_and_return_html(cnx, """
 WITH region_income_counts AS (
   SELECT 
     Region,
@@ -436,24 +436,28 @@ WITH region_income_counts AS (
   WHERE Region IS NOT NULL AND `Income Group` IS NOT NULL
   GROUP BY Region, `Income Group`
 ),
-total_country_count AS (
-  SELECT COUNT(*) AS total 
+region_totals AS (
+  SELECT 
+    Region,
+    COUNT(*) AS total_countries
   FROM wdi_country
   WHERE Region IS NOT NULL AND `Income Group` IS NOT NULL
+  GROUP BY Region
 )
 
 SELECT 
-  ric.Region,
-  ROUND(SUM(CASE WHEN ric.`Income Group` = 'High income' THEN country_count ELSE 0 END) * 100.0 / t.total, 2) AS High_income,
-  ROUND(SUM(CASE WHEN ric.`Income Group` = 'Upper middle income' THEN country_count ELSE 0 END) * 100.0 / t.total, 2) AS Upper_middle_income,
-  ROUND(SUM(CASE WHEN ric.`Income Group` = 'Lower middle income' THEN country_count ELSE 0 END) * 100.0 / t.total, 2) AS Lower_middle_income,
-  ROUND(SUM(CASE WHEN ric.`Income Group` = 'Low income' THEN country_count ELSE 0 END) * 100.0 / t.total, 2) AS Low_income,
-  ROUND(SUM(CASE WHEN ric.`Income Group` NOT IN ('High income', 'Upper middle income', 'Lower middle income', 'Low income') THEN country_count ELSE 0 END) * 100.0 / t.total, 2) AS Other,
-  ROUND(SUM(country_count) * 100.0 / t.total, 2) AS Row_Total_Percent
-FROM region_income_counts ric, total_country_count t
-GROUP BY ric.Region
-ORDER BY ric.Region;
+  rt.Region,
+  ROUND(COALESCE(SUM(CASE WHEN ric.`Income Group` = 'High income' THEN ric.country_count ELSE 0 END) * 100.0 / rt.total_countries, 0), 2) AS High_income,
+  ROUND(COALESCE(SUM(CASE WHEN ric.`Income Group` = 'Upper middle income' THEN ric.country_count ELSE 0 END) * 100.0 / rt.total_countries, 0), 2) AS Upper_middle_income,
+  ROUND(COALESCE(SUM(CASE WHEN ric.`Income Group` = 'Lower middle income' THEN ric.country_count ELSE 0 END) * 100.0 / rt.total_countries, 0), 2) AS Lower_middle_income,
+  ROUND(COALESCE(SUM(CASE WHEN ric.`Income Group` = 'Low income' THEN ric.country_count ELSE 0 END) * 100.0 / rt.total_countries, 0), 2) AS Low_income,
+  ROUND(100.0, 2) AS Row_Total_Percent
+FROM region_totals rt
+LEFT JOIN region_income_counts ric ON rt.Region = ric.Region
+GROUP BY rt.Region, rt.total_countries
+ORDER BY rt.Region;
 """)
+
 
 ```
 
