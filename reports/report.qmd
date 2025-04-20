@@ -299,9 +299,20 @@ SELECT Region, `Income Group`, COUNT(*) AS "no.of.countries" FROM wdi_country WH
 ## and a column for the row totals.
 ## (skills: select, aggregate, group by, nested query)
 
-run_sql_and_return_html(cnx,"""
-SELECT Region, COUNT(CASE WHEN `Income Group` = 'High income' THEN 1 END) AS "High income", COUNT(CASE WHEN `Income Group` = 'Upper middle income' THEN 1 END) AS "Upper middle income", COUNT(CASE WHEN `Income Group` = 'Lower middle income' THEN 1 END) AS "Lower middle income", COUNT(CASE WHEN `Income Group` = 'Low income' THEN 1 END) AS "Low income", COUNT(*) AS "Total Countries" FROM wdi_country WHERE Region IS NOT NULL GROUP BY Region ORDER BY Region;
+run_sql_and_return_html(cnx, """
+SELECT 
+  Region,
+  COUNT(CASE WHEN `Income Group` = 'High income' THEN 1 END) AS "High income",
+  COUNT(CASE WHEN `Income Group` = 'Upper middle income' THEN 1 END) AS "Upper middle income",
+  COUNT(CASE WHEN `Income Group` = 'Lower middle income' THEN 1 END) AS "Lower middle income",
+  COUNT(CASE WHEN `Income Group` = 'Low income' THEN 1 END) AS "Low income",
+  COUNT(*) AS "Total Countries"
+FROM wdi_country
+WHERE Region IS NOT NULL
+GROUP BY Region
+ORDER BY Region;
 """)
+
 
 ```
 
